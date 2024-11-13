@@ -7,14 +7,14 @@ import Skeleton from "../Components/Loader/Skeleton";
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import useUsers from "../Hooks/useUsers";
 
 const Users = () => {
     const { user } = useAuth();
+    const [users, isLoading] = useUsers();
+    const sender = users.find(usr => usr.name === user?.displayName);
+    const sid = sender?._id ;
 
-    const { data: users = [], isLoading, refetch } = useQuery({
-        queryKey: ['users'],
-        queryFn: allUsers,
-    });
     // Use useMemo to filter once data is available and prevent recalculating on each render
     const remaining = useMemo(() => {
         return users.filter(usr => usr.name !== user?.displayName);
@@ -24,14 +24,14 @@ const Users = () => {
     return (
         <Container>
             <Helmet>
-                <title>Chattigo | Users</title> 
+                <title>Chattigo | Users</title>
             </Helmet>
             <div className="border-2 p-3 grid md:grid-cols-4 grid-cols-2 gap-3 text-white min-h-screen rounded-xl">
                 {remaining && remaining.map(user => <Link
-                    to={`/inbox/${user._id}`}
+                    to={`/profile/${user._id}`}
                     key={user._id}
                     state={{ name: user.name, photo: user.photo }}>
-                    <UserBox name={user.name} photo={user.photo}></UserBox>
+                    <UserBox name={user.name} sid={sid} photo={user.photo} id={user._id}></UserBox>
                 </Link>)}
             </div>
         </Container>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import useAuth from '../Hooks/useAuth';
 import { imageUpload } from '../Api/utensils';
 import toast from 'react-hot-toast';
-import { saveUsers } from '../Api/route';
+import { getToken, saveUsers } from '../Api/route';
 const Signup = () => {
     const { createUser, googleSignIn, updateUserProfile } = useAuth();
     const [image, setImage] = useState('');
@@ -27,6 +27,7 @@ const Signup = () => {
             toast.success('Sign up successful');
             navigate('/');
             // save user
+            const getTkn = await getToken(result?.user?.email);
             const dbresponse = await saveUsers(result?.user);
             console.log(dbresponse)
         } catch (err) {
@@ -40,6 +41,7 @@ const Signup = () => {
             const result = await googleSignIn();
             toast.success('Sign in successful');
             navigate('/');
+            const getTkn = await getToken(result?.user?.email);
             const dbresponse = await saveUsers(result?.user);
             console.log(dbresponse);
         } catch (err) {

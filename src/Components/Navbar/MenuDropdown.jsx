@@ -4,28 +4,59 @@ import avatarImg from '../../assets/placeholder.jpg'
 import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 import toast from 'react-hot-toast';
+import { AiOutlineMessage } from "react-icons/ai";
+import { LiaUserFriendsSolid } from "react-icons/lia";
+import useMessages from '../../Hooks/useMessages';
+import useRequests from '../../Hooks/useRequests';
 
 const MenuDropdown = () => {
-    const [isOpen, setIsOpen] = useState(false);
     const { user, logOut } = useAuth();
+    const [isOpen, setIsOpen] = useState(false);
+    const [data] = useMessages();
+    const [requests] = useRequests();
 
-    const handleLogout = async()=>{
-        try{
+    console.log(requests);
+    const handleLogout = async () => {
+        try {
             await logOut();
             toast.success('Logout successful');
-        }catch(err){
+        } catch (err) {
             console.log(err);
             toast.error(err?.message);
         }
     }
 
     return (
-        <div className="relative">
+        <div className="relative flex items-center gap-4">
+            {user && (
+                <div className='flex gap-4'>
+                    <div className="relative inline-block">
+                        <Link className="text-2xl">
+                            <AiOutlineMessage />
+                        </Link>
+                        {data?.messagesCount > 0 && (
+                            <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                {data?.messagesCount}
+                            </span>
+                        )}
+                    </div>
+                    <div className="relative inline-block">
+                        <Link className='text-2xl'>
+                            <LiaUserFriendsSolid />
+                        </Link>
+                        {requests?.requestsCount > 0 && (
+                            <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                {requests?.requestsCount}
+                            </span>
+                        )}
+                    </div>
+                </div>)
+            }
             <div
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
             >
-                < AiOutlineMenu className='text-gray-900'/>
+                < AiOutlineMenu className='text-gray-900' />
                 <div className="hidden md:block">
                     {/* Avatar */}
                     <img
@@ -48,7 +79,7 @@ const MenuDropdown = () => {
                                 className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
                                 Profile
                             </Link>
-                            <div 
+                            <div
                                 onClick={handleLogout}
                                 to="/signup"
                                 className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">

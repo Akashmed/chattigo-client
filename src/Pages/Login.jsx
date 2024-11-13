@@ -1,20 +1,23 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import image from '../../public/logo.webp'
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
-import { saveUsers } from "../Api/route";
+import { getToken, saveUsers } from "../Api/route";
 
 const Login = () => {
     const {googleSignIn,signIn} = useAuth();
     const navigate = useNavigate();
+    const from = location?.state?.from?.pathname || ('/');
+
     const handleLogin = async e =>{
         e.preventDefault();
         const form = e.target;
         const email = form.email.value;
         const password = form.password.value;
         try{
-            await signIn(email,password);
-            navigate('/');
+            const result = await signIn(email,password);
+            const getTkn = await getToken(result?.user?.email);
+            navigate(from, {replace:true});
             toast.success('Login successful')
         }catch(err){
             console.log(err);
@@ -25,8 +28,9 @@ const Login = () => {
     const handleGglSignIn = async () => {
         try {
             const result = await googleSignIn();
+            const getTkn = await getToken(result?.user?.email);
             toast.success('Sign in successful');
-            navigate('/');
+            navigate(from, {replace:true});
             const dbresponse = await saveUsers(result?.user);
         } catch (err) {
             console.log(err);

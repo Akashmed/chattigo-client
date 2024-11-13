@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import Skeleton from './Loader/Skeleton';
 import { io } from 'socket.io-client';
 import useAuth from '../Hooks/useAuth';
+import useUsers from '../Hooks/useUsers';
 
 const socket = io.connect("http://localhost:5000");
 
@@ -14,30 +15,21 @@ const ChatInbox = () => {
     const { user } = useAuth();
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
+    const [users, isLoading] = useUsers();
 
 
     // get all users
-    const { data: users = [], isLoading } = useQuery({
-        queryKey: ['users'],
-        queryFn: allUsers,
-    });
+    // const { data: users = [], isLoading } = useQuery({
+    //     queryKey: ['users'],
+    //     queryFn: allUsers,
+    // });
 
     const recipient = users.find(usr => usr._id === Id);
     const sender = users.find(usr => usr.name === user?.displayName);
 
 
     useEffect(() => {
-        allmessages(sender?._id, recipient?._id)
-            .then(data => {
-                data.map(dt => setMessages((prevMessages) => [
-                    ...prevMessages,
-                    {
-                        id: Date.now(),
-                        text: dt.text,
-                        sender: dt.senderId === sender._id ? 'user' : 'recipient'
-                    },
-                ]))
-            })
+
         // Connect to socket server and log the socket ID
         socket.on("connect", () => {
             console.log("Connected to socket server with ID:", socket.id);
@@ -63,6 +55,18 @@ const ChatInbox = () => {
                 },
             ]);
         });
+
+        allmessages(sender?._id, recipient?._id)
+            .then(data => {
+                data.map(dt => setMessages((prevMessages) => [
+                    ...prevMessages,
+                    {
+                        id: Date.now(),
+                        text: dt.text,
+                        sender: dt.senderId === sender._id ? 'user' : 'recipient'
+                    },
+                ]))
+            })
 
         // Clean up all listeners when the component unmounts
         return () => {
@@ -109,8 +113,8 @@ const ChatInbox = () => {
             <h6>Chat with ID: {Id}</h6>
 
             <div className="flex flex-col flex-grow h-80 p-4 overflow-y-auto">
-                {messages.map((msg) => (
-                    <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`}>
+                {messages.map((msg, indx) => (
+                    <div key={indx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`}>
                         <div className={`rounded-lg px-4 py-2 max-w-xs ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}>
                             {msg.text}
                         </div>

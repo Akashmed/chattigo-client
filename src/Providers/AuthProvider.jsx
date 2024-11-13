@@ -2,6 +2,7 @@
 import { createContext, useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, getAuth, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth'
 import { app } from "../Components/Firebase/firebase.config";
+import { removeCookie } from "../Api/route";
 
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -11,7 +12,7 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const createUser = (email, password) => {
         setLoading(true);
@@ -33,8 +34,9 @@ const AuthProvider = ({ children }) => {
         return sendPasswordResetEmail(auth,email);
     }
 
-    const logOut = () =>{
+    const logOut = async() =>{
         setLoading(true);
+        await removeCookie();
         return signOut(auth);
     }
 

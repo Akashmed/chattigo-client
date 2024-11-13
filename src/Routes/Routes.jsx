@@ -6,7 +6,10 @@ import ErrorPage from "../Components/ErrorPage";
 import Main from "../Layout/Main";
 import Users from "../Pages/Users";
 import ChatInbox from "../Components/chatInbox";
-import { allUsers } from "../Api/route";
+import UserModal from "../Components/Shared/Modal/UserModal";
+import PrivateRoute from "./PrivateRoute";
+import UserBox from "../Pages/UserBox";
+import Profile from "../Pages/Home/Profile";
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +25,10 @@ export const router = createBrowserRouter([
                 path:'users',
                 element:<Users></Users>
             },
+            {
+                path:'user',
+                element:<UserBox></UserBox>
+            },
             
         ]
     },
@@ -35,6 +42,10 @@ export const router = createBrowserRouter([
     },
     {
         path:'/inbox/:Id',
-        element:<ChatInbox></ChatInbox>,
+        element:<PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+    },
+    {
+        path:'/profile/:Id',
+        element:<PrivateRoute><Profile/></PrivateRoute>
     }
 ])
