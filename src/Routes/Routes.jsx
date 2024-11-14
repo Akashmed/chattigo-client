@@ -10,6 +10,10 @@ import UserModal from "../Components/Shared/Modal/UserModal";
 import PrivateRoute from "./PrivateRoute";
 import UserBox from "../Pages/UserBox";
 import Profile from "../Pages/Home/Profile";
+import ProfileCard from "../Components/Card/ProfileCard";
+import Messages from "../Pages/Messages";
+import Requests from "../Pages/Requests";
+import Friends from "../Pages/Friends";
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +33,18 @@ export const router = createBrowserRouter([
                 path:'user',
                 element:<UserBox></UserBox>
             },
+            {
+                path:'messages',
+                element:<Messages></Messages>
+            },
+            {
+                path:'requests',
+                element:<Requests></Requests>
+            },
+            {
+                path:'friends',
+                element:<Friends></Friends>
+            },
             
         ]
     },
@@ -47,5 +63,9 @@ export const router = createBrowserRouter([
     {
         path:'/profile/:Id',
         element:<PrivateRoute><Profile/></PrivateRoute>
+    },
+    {
+        path:'/card',
+        element:<ProfileCard></ProfileCard>
     }
 ])

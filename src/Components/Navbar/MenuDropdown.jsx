@@ -8,14 +8,17 @@ import { AiOutlineMessage } from "react-icons/ai";
 import { LiaUserFriendsSolid } from "react-icons/lia";
 import useMessages from '../../Hooks/useMessages';
 import useRequests from '../../Hooks/useRequests';
+import useUsers from '../../Hooks/useUsers';
 
 const MenuDropdown = () => {
     const { user, logOut } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [data] = useMessages();
     const [requests] = useRequests();
+    const [users] = useUsers();
 
-    console.log(requests);
+    const me = users?.find(usr => usr.name === user?.displayName);
+
     const handleLogout = async () => {
         try {
             await logOut();
@@ -31,7 +34,7 @@ const MenuDropdown = () => {
             {user && (
                 <div className='flex gap-4'>
                     <div className="relative inline-block">
-                        <Link className="text-2xl">
+                        <Link to='/messages' className="text-2xl">
                             <AiOutlineMessage />
                         </Link>
                         {data?.messagesCount > 0 && (
@@ -41,7 +44,7 @@ const MenuDropdown = () => {
                         )}
                     </div>
                     <div className="relative inline-block">
-                        <Link className='text-2xl'>
+                        <Link to='requests' className='text-2xl'>
                             <LiaUserFriendsSolid />
                         </Link>
                         {requests?.requestsCount > 0 && (
@@ -75,7 +78,7 @@ const MenuDropdown = () => {
                     <div className="flex flex-col cursor-pointer">
                         {user ? <>
                             <Link
-                                to="/profile"
+                                to={`/profile/${me?._id}`}
                                 className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
                                 Profile
                             </Link>

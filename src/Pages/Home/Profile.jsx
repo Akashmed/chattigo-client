@@ -37,7 +37,9 @@ const Profile = () => {
         },
     });
 
-    console.log('Relation:', relation);
+    // .some function returns in boolean 
+    const meExists = sender?._id === Id;
+    console.log(meExists)
 
     const handleConnect = async () => {
         try {
@@ -56,12 +58,12 @@ const Profile = () => {
         }
     }
 
-    const acceptReq = async() =>{
-        try{
+    const acceptReq = async () => {
+        try {
             const result = await updateRelation(sender?._id, recipient?._id)
             toast.success('Request accepted');
             refetch();
-        }catch(err){
+        } catch (err) {
             console.log(err);
             toast.error("Error accepting request")
         }
@@ -112,7 +114,7 @@ const Profile = () => {
                             </p>
                             <p className='flex flex-col'>
                                 Email
-                                <span className='font-bold text-black '>{user?.email}</span>
+                                <span className='font-bold text-black '>{recipient?.email}</span>
                             </p>
 
                             <div>
@@ -128,9 +130,14 @@ const Profile = () => {
                                                 </Link>
                                             )
                                     ) : (
-                                        <button onClick={handleConnect} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
-                                            Connect
-                                        </button>
+                                        meExists ?
+                                            <Link to='/friends' className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                Friends
+                                            </Link> : <button
+                                                onClick={handleConnect}
+                                                className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                Connect
+                                            </button>
                                     )
                                 }
 

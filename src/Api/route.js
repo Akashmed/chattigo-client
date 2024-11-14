@@ -65,10 +65,16 @@ export const updateRelation = async (myId, sId) => {
 export const receivedMsgs = async (myId) => {
     const { data } = await axiosSecure(`/receivedMsg/${myId}`)
     return data;
-} 
+}
 
 // get all user requests and count
 export const receivedRqsts = async (myId) => {
     const { data } = await axiosSecure(`/rqstsReceived/${myId}`)
     return data;
-} 
+}
+
+// get friends
+export const getFriends = async (myId) => {
+    const { data } = await axiosSecure(`/friends/${myId}`)
+    return data;
+}
