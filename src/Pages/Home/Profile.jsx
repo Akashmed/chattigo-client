@@ -4,7 +4,7 @@ import useUsers from "../../Hooks/useUsers";
 import useAuth from "../../Hooks/useAuth";
 import Skeleton from "../../Components/Loader/Skeleton";
 import { useQuery } from "@tanstack/react-query";
-import { getRelation, setRelation, updateRelation } from "../../Api/route";
+import { dltRelation, getRelation, setRelation, updateRelation } from "../../Api/route";
 import toast from "react-hot-toast";
 
 const Profile = () => {
@@ -37,9 +37,8 @@ const Profile = () => {
         },
     });
 
-    // .some function returns in boolean 
+    // returns in boolean 
     const meExists = sender?._id === Id;
-    console.log(meExists)
 
     const handleConnect = async () => {
         try {
@@ -66,6 +65,17 @@ const Profile = () => {
         } catch (err) {
             console.log(err);
             toast.error("Error accepting request")
+        }
+    }
+
+    const deleteRelation = async () => {
+        try {
+            const result = await dltRelation(sender?._id, recipient?._id)
+            toast.success('Successfully Deleted');
+            refetch();
+        } catch (err) {
+            console.log(err);
+            toast.error("An error occured");
         }
     }
 
@@ -120,15 +130,28 @@ const Profile = () => {
                             <div>
                                 {relation ?
                                     (
-                                        relation?.status !== 'known' ? relation?.senderId === sender?._id ? 'request sent' : (
+                                        relation?.status !== 'known' ? relation?.senderId === sender?._id ? <>
+                                            <button onClick={deleteRelation} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                Cancel Req
+                                            </button>
+                                        </> : <>
                                             <button onClick={acceptReq} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
                                                 Accept
-                                            </button>)
-                                            : (
+                                            </button>
+                                            <button onClick={deleteRelation} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                Delete Req
+                                            </button>
+                                        </>
+                                            : <>
                                                 <Link to={`/inbox/${Id}`} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
                                                     Send Message
                                                 </Link>
-                                            )
+                                                <button onClick={deleteRelation} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                    Unfriend
+                                                </button>
+
+                                            </>
+
                                     ) : (
                                         meExists ?
                                             <Link to='/friends' className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>

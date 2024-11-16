@@ -78,3 +78,9 @@ export const getFriends = async (myId) => {
     const { data } = await axiosSecure(`/friends/${myId}`)
     return data;
 }
+
+// delete request or unfriend users
+export const dltRelation = async(myId,id) =>{
+    const {data} = await axiosSecure.delete(`/dltRelations/${myId}/${id}`)
+    return data ;
+}
