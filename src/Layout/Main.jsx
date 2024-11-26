@@ -5,7 +5,7 @@ const Main = () => {
     return (
         <div className="bg-white dark:bg-gray-900">
             <Navbar />
-            <div className='pt-20 min-h-[calc(100vh-68px)]'>
+            <div className='pt-20 min-h-screen'>
                 <Outlet />
             </div>
 

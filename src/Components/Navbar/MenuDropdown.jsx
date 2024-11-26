@@ -34,7 +34,7 @@ const MenuDropdown = () => {
             {user && (
                 <div className='flex gap-4'>
                     <div className="relative inline-block">
-                        <Link to='/messages' className="text-2xl">
+                        <Link to='/messages' className="text-2xl text-teal-600">
                             <AiOutlineMessage />
                         </Link>
                         {data?.messagesCount > 0 && (
@@ -44,7 +44,7 @@ const MenuDropdown = () => {
                         )}
                     </div>
                     <div className="relative inline-block">
-                        <Link to='requests' className='text-2xl'>
+                        <Link to='requests' className='text-2xl text-teal-600'>
                             <LiaUserFriendsSolid />
                         </Link>
                         {requests?.requestsCount > 0 && (

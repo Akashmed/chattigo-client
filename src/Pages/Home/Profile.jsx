@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import useUsers from "../../Hooks/useUsers";
 import useAuth from "../../Hooks/useAuth";
 import Skeleton from "../../Components/Loader/Skeleton";
+import pCover from "../../../public/CHAT by.png";
 import { useQuery } from "@tanstack/react-query";
 import { dltRelation, getRelation, setRelation, updateRelation } from "../../Api/route";
 import toast from "react-hot-toast";
@@ -89,33 +90,33 @@ const Profile = () => {
 
     if (isLoadingAll && ldng) return <Skeleton></Skeleton>
     return (
-        <div className='flex justify-center items-center h-screen'>
+        <div className='dark:bg-gray-900 flex justify-center items-center h-screen'>
             <Helmet>
                 <title>Profile</title>
             </Helmet>
-            <div className='bg-white shadow-lg rounded-2xl w-3/5'>
+            <div className='bg-[#FFFFFF] shadow-lg border-t-2 rounded-2xl w-3/6'>
                 <img
                     alt='profile'
-                    src='https://wallpapercave.com/wp/wp10784415.jpg'
-                    className='w-full mb-4 rounded-t-lg h-36'
+                    src={pCover}
+                    className='w-full mb-4 object-cover rounded-t-lg h-36'
                 />
                 <div className='flex flex-col items-center justify-center p-4 -mt-16'>
-                    <a href='#' className='relative block'>
+                    <Link to='#' className='relative block'>
                         <img
                             alt='profile'
                             src={recipient?.photo}
                             className='mx-auto object-cover rounded-full h-24 w-24  border-2 border-white '
                         />
-                    </a>
+                    </Link>
 
-                    <p className='p-2 px-4 font-semibold text-xs text-white bg-pink-500 rounded-full'>
+                    <p className='p-2 px-4 font-semibold text-xs text-white bg-gradient-to-r from-emerald-500 from-10% to-emerald-500 to-90% rounded-full'>
                         {recipient?.name}
                     </p>
-                    <p className='mt-2 text-xl font-medium text-gray-800 '>
+                    <p className='mt-2 text-xl sm:text-center font-medium text-gray-600 '>
                         User Id: {recipient?._id}
                     </p>
                     <div className='w-full p-2 mt-4 rounded-lg'>
-                        <div className='flex flex-wrap items-center justify-between text-sm text-gray-600 '>
+                        <div className='flex flex-wrap space-y-1 items-center justify-between text-sm text-gray-600 '>
                             <p className='flex flex-col'>
                                 Since
                                 <span className='font-bold text-black '>
@@ -131,22 +132,22 @@ const Profile = () => {
                                 {relation ?
                                     (
                                         relation?.status !== 'known' ? relation?.senderId === sender?._id ? <>
-                                            <button onClick={deleteRelation} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                            <button onClick={deleteRelation} className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
                                                 Cancel Req
                                             </button>
                                         </> : <>
-                                            <button onClick={acceptReq} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                            <button onClick={acceptReq} className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
                                                 Accept
                                             </button>
-                                            <button onClick={deleteRelation} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
-                                                Delete Req
+                                            <button onClick={deleteRelation} className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
+                                                Delete
                                             </button>
                                         </>
                                             : <>
-                                                <Link to={`/inbox/${Id}`} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
-                                                    Send Message
+                                                <Link to={`/inbox/${Id}`} className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
+                                                    Message
                                                 </Link>
-                                                <button onClick={deleteRelation} className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                <button onClick={deleteRelation} className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
                                                     Unfriend
                                                 </button>
 
@@ -154,11 +155,11 @@ const Profile = () => {
 
                                     ) : (
                                         meExists ?
-                                            <Link to='/friends' className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                            <Link to='/friends' className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
                                                 Friends
                                             </Link> : <button
                                                 onClick={handleConnect}
-                                                className='bg-[#F43F5E] px-10 py-1 rounded-lg text-white cursor-pointer hover:bg-[#af4053] block mb-1'>
+                                                className='bg-teal-600 px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-teal-500 block mb-1'>
                                                 Connect
                                             </button>
                                     )

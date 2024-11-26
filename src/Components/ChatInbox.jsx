@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { allmessages, allUsers } from '../Api/route';
-import { useQuery } from '@tanstack/react-query';
+import { useNavigate, useParams } from 'react-router-dom';
+import { allmessages} from '../Api/route';
 import Skeleton from './Loader/Skeleton';
 import { io } from 'socket.io-client';
 import useAuth from '../Hooks/useAuth';
+import { IoInformationCircle } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
 import useUsers from '../Hooks/useUsers';
+import { GoPaperAirplane } from "react-icons/go";
 
 const socket = io.connect("http://localhost:5000");
 
@@ -16,6 +18,7 @@ const ChatInbox = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [users, isLoading] = useUsers();
+    const navigate = useNavigate();
 
 
     // get all users
@@ -109,35 +112,72 @@ const ChatInbox = () => {
     if (isLoading) return <Skeleton />;
 
     return (
-        <div className="flex flex-col w-full max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
-            <h6>Chat with ID: {Id}</h6>
-
-            <div className="flex flex-col flex-grow h-80 p-4 overflow-y-auto">
-                {messages.map((msg, indx) => (
-                    <div key={indx} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`}>
-                        <div className={`rounded-lg px-4 py-2 max-w-xs ${msg.sender === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-800'}`}>
-                            {msg.text}
-                        </div>
+        <div className='flex items-center h-screen dark:bg-gray-900'>
+            <div className="flex flex-col w-full h-3/4 max-w-md mx-auto bg-teal-600 shadow-lg rounded-lg overflow-hidden">
+                <div className='p-3 border-b border-black flex justify-between'>
+                    <div className='flex items-center'>
+                        <img
+                            src={recipient?.photo}
+                            alt="Recipient"
+                            className="w-8 h-8 rounded-full"
+                        />
+                        <span className="ml-2 font-semibold text-white">{recipient?.name}</span>
                     </div>
-                ))}
-            </div>
+                    <div className='flex items-center gap-1'>
+                        <button onClick={()=>navigate(`/profile/${Id}`)}><IoInformationCircle className="text-white text-2xl" /></button>
+                        <button onClick={()=>navigate('/')}><RxCross2 className="text-white text-2xl" /></button>
+                    </div>
 
-            <div className="p-3 border-t border-gray-200">
-                <div className="relative flex">
-                    <input
-                        type="text"
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                        placeholder="Type your message..."
-                        className="w-full pl-4 pr-12 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
-                    />
-                    <button
-                        onClick={sendMessage}
-                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-4 py-1 rounded-lg"
-                    >
-                        Send
-                    </button>
+                </div>
+
+                <div className="flex flex-col flex-grow h-80 p-4 overflow-y-auto no-scrollbar">
+                    {messages.map((msg, indx) => (
+                        <div
+                            key={indx}
+                            className={`flex items-center gap-2 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'} mb-2`}
+                        >
+                            {msg.sender !== 'user' && (
+                                <img
+                                    src={recipient?.photo}
+                                    alt="Recipient"
+                                    className="w-8 h-8 rounded-full"
+                                />
+                            )}
+
+                            <div
+                                className={`rounded-lg px-4 py-2 max-w-xs ${msg.sender === 'user' ? 'bg-black text-white' : 'bg-gray-200 text-gray-800'}`}
+                            >
+                                {msg.text}
+                            </div>
+
+                            {msg.sender === 'user' && (
+                                <img
+                                    src={sender?.photo}
+                                    alt="Sender"
+                                    className="w-8 h-8 rounded-full"
+                                />
+                            )}
+                        </div>
+                    ))}
+                </div>
+
+                <div className="p-3  border-black">
+                    <div className="relative flex">
+                        <input
+                            type="text"
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+                            placeholder="Type your message..."
+                            className="w-full pl-4 pr-16 py-2 text-white border-b placeholder-white border-black rounded-lg bg-transparent focus:outline-none"
+                        />
+                        <button
+                            onClick={sendMessage}
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white text-black px-4 py-1 rounded-lg"
+                        >
+                            <GoPaperAirplane />
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

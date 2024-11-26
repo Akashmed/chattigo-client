@@ -14,6 +14,7 @@ import ProfileCard from "../Components/Card/ProfileCard";
 import Messages from "../Pages/Messages";
 import Requests from "../Pages/Requests";
 import Friends from "../Pages/Friends";
+import { Card } from "../Components/ui/HoverEffect";
 
 export const router = createBrowserRouter([
     {
@@ -67,5 +68,9 @@ export const router = createBrowserRouter([
     {
         path:'/card',
         element:<ProfileCard></ProfileCard>
+    },
+    {
+        path:'hello',
+        element:<Card></Card>
     }
 ])
