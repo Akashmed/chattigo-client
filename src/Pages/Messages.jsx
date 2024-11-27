@@ -3,10 +3,14 @@ import ProfileCard from "../Components/Card/ProfileCard";
 import Container from "../Components/Shared/Container";
 import useMessages from "../Hooks/useMessages";
 import EmptyState from "../Components/Empty state/EmptyState";
+import { Helmet } from "react-helmet-async";
 const Messages = () => {
     const [data] = useMessages();
     return (
         <Container>
+            <Helmet>
+                <title>Messages</title>
+            </Helmet>
             <div className="flex flex-col items-center  gap-4">
                 {data?.messagesCount > 0 ? (
                     data?.users.map(user => (

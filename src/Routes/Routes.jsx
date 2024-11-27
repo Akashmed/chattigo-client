@@ -6,7 +6,6 @@ import ErrorPage from "../Components/ErrorPage";
 import Main from "../Layout/Main";
 import Users from "../Pages/Users";
 import ChatInbox from "../Components/chatInbox";
-import UserModal from "../Components/Shared/Modal/UserModal";
 import PrivateRoute from "./PrivateRoute";
 import UserBox from "../Pages/UserBox";
 import Profile from "../Pages/Home/Profile";

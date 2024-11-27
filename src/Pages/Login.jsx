@@ -3,6 +3,7 @@ import image from '../../public/logo.webp'
 import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { getToken, saveUsers } from "../Api/route";
+import { Helmet } from "react-helmet-async";
 
 const Login = () => {
     const {googleSignIn,signIn} = useAuth();
@@ -40,6 +41,9 @@ const Login = () => {
 
     return (
         <section className="bg-white dark:bg-gray-900">
+            <Helmet>
+                <title>Chattigo | Login</title>
+            </Helmet>
             <div className="container flex items-center justify-center min-h-screen px-6 mx-auto">
                 <form onSubmit={handleLogin} className="w-full max-w-md">
                     <img className="w-auto h-7 sm:h-8" src={image} alt=""/>

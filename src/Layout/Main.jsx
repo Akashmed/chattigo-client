@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../Components/Navbar/Navbar";
+import Footer from "../Components/Shared/Footer/Footer";
 
 const Main = () => {
     return (
@@ -8,6 +9,7 @@ const Main = () => {
             <div className='pt-20 min-h-screen'>
                 <Outlet />
             </div>
+            <Footer />
 
         </div>
     );

@@ -16,7 +16,7 @@ export const HoverEffect = ({
             {items.map((item, idx) => (
                 <motion.div
                     key={item?._id}
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: idx * 0.1 }} // Stagger the animation
                 >

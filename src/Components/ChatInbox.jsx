@@ -9,6 +9,7 @@ import { IoInformationCircle } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import useUsers from '../Hooks/useUsers';
 import { GoPaperAirplane } from "react-icons/go";
+import { Helmet } from 'react-helmet-async';
 
 const socket = io.connect("http://localhost:5000");
 
@@ -113,6 +114,9 @@ const ChatInbox = () => {
 
     return (
         <div className='flex items-center h-screen dark:bg-gray-900'>
+            <Helmet>
+                <title>Inbox | {recipient?.name}</title>
+            </Helmet>
             <div className="flex flex-col w-full h-3/4 max-w-md mx-auto bg-teal-600 shadow-lg rounded-lg overflow-hidden">
                 <div className='p-3 border-b border-black flex justify-between'>
                     <div className='flex items-center'>
@@ -125,7 +129,7 @@ const ChatInbox = () => {
                     </div>
                     <div className='flex items-center gap-1'>
                         <button onClick={()=>navigate(`/profile/${Id}`)}><IoInformationCircle className="text-white text-2xl" /></button>
-                        <button onClick={()=>navigate('/')}><RxCross2 className="text-white text-2xl" /></button>
+                        <button onClick={()=>navigate(-2)}><RxCross2 className="text-white text-2xl" /></button>
                     </div>
 
                 </div>
