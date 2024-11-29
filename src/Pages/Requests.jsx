@@ -20,7 +20,7 @@ const Requests = () => {
                             </ProfileCard>
                         </Link>
                     ))
-                ): <EmptyState message="No requests yet" address={'/'} label={'Home'} />}
+                ): <EmptyState message="No requests yet" />}
             </div>
         </Container>
 

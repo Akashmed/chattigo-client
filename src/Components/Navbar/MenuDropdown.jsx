@@ -34,17 +34,17 @@ const MenuDropdown = () => {
             {user && (
                 <div className='flex gap-4'>
                     <div className="relative inline-block">
-                        <Link to='/messages' className="text-2xl text-teal-600">
+                        <Link to='/messages' className="text-2xl text-gray-900">
                             <AiOutlineMessage />
                         </Link>
-                        {data?.messagesCount > 0 && (
+                        {data?.length > 0 && (
                             <span className="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                                {data?.messagesCount}
+                                {data?.length}
                             </span>
                         )}
                     </div>
                     <div className="relative inline-block">
-                        <Link to='requests' className='text-2xl text-teal-600'>
+                        <Link to='requests' className='text-2xl text-gray-900'>
                             <LiaUserFriendsSolid />
                         </Link>
                         {requests?.requestsCount > 0 && (
@@ -77,6 +77,15 @@ const MenuDropdown = () => {
                 <div className="absolute rounded-xl shadow-md w-[40vw] md:w-[10vw] bg-white overflow-hidden right-0 top-12 text-sm">
                     <div className="flex flex-col cursor-pointer">
                         {user ? <>
+                            {
+                                me.role === 'Admin' && (
+                                    <Link
+                                        to="/admin"
+                                        className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">
+                                        Manage Users
+                                    </Link>
+                                )
+                            }
                             <Link
                                 to={`/profile/${me?._id}`}
                                 className="px-4 py-3 hover:bg-neutral-100 transition font-semibold">

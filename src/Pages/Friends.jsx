@@ -14,10 +14,10 @@ const Friends = () => {
             <Helmet>
                 <title>Chattigo | Friends</title>
             </Helmet>
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex flex-col items-center mt-4 gap-4">
                 {friends && (
                     friends.map(user => (
-                        <Link to={`/profile/${user._id}`} className="block w-2/4" key={user._id} >
+                        <Link to={`/profile/${user._id}`} className="block w-1/2 md:w-2/5" key={user._id} >
                             <ProfileCard name={user.name} photo={user.photo}>
                             </ProfileCard>
                         </Link>

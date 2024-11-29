@@ -80,7 +80,25 @@ export const getFriends = async (myId) => {
 }
 
 // delete request or unfriend users
-export const dltRelation = async(myId,id) =>{
-    const {data} = await axiosSecure.delete(`/dltRelations/${myId}/${id}`)
-    return data ;
+export const dltRelation = async (myId, id) => {
+    const { data } = await axiosSecure.delete(`/dltRelations/${myId}/${id}`)
+    return data;
+}
+
+// search users
+export const searchUsers = async (name) => {
+    const { data } = await axiosSecure(`/search?query=${name}`);
+    return data;
+}
+
+// update user bio
+export const updateBio = async (id, bio) => {
+    const { data } = await axiosSecure.patch(`/bio/${id}`, { bio });
+    return data;
+}
+
+// delete user (Admin)
+export const deleteUser = async (id) => {
+    const { data } = await axiosSecure.delete(`/dltUser/${id}`);
+    return data;
 }

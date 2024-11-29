@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { allmessages} from '../Api/route';
+import { allmessages } from '../Api/route';
 import Skeleton from './Loader/Skeleton';
-import { io } from 'socket.io-client';
+import { GoDotFill } from "react-icons/go";
 import useAuth from '../Hooks/useAuth';
 import { IoInformationCircle } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 import useUsers from '../Hooks/useUsers';
 import { GoPaperAirplane } from "react-icons/go";
 import { Helmet } from 'react-helmet-async';
-
-const socket = io.connect("http://localhost:5000");
+import socket from './socket';
 
 const ChatInbox = () => {
     const { Id } = useParams();
@@ -19,8 +18,9 @@ const ChatInbox = () => {
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
     const [users, isLoading] = useUsers();
+    const [online, setOnline] = useState(false);
     const navigate = useNavigate();
-
+    console.log(online);
 
     // get all users
     // const { data: users = [], isLoading } = useQuery({
@@ -47,6 +47,16 @@ const ChatInbox = () => {
             console.log("Sender or recipient ID is not available.");
         }
 
+        // check if user is online
+        socket.on('userOnline', () => {
+            setOnline(true);
+        });
+        // check if user is online
+        socket.on('userOffline', () => {
+            setOnline(false);
+        });
+
+
         // Listen for incoming messages from the server
         socket.on('receiveMessage', (data) => {
             console.log("Message received from server:", data);
@@ -72,10 +82,13 @@ const ChatInbox = () => {
                 ]))
             })
 
+
         // Clean up all listeners when the component unmounts
         return () => {
-            socket.off("connect");
+            socket.emit("userDisconnected", { userId: sender?._id }); // Inform backend
             socket.off("receiveMessage");
+            socket.off("connect");
+            socket.off("disconnect");
         };
     }, [sender?._id, recipient?._id]);
 
@@ -117,19 +130,20 @@ const ChatInbox = () => {
             <Helmet>
                 <title>Inbox | {recipient?.name}</title>
             </Helmet>
-            <div className="flex flex-col w-full h-3/4 max-w-md mx-auto bg-teal-600 shadow-lg rounded-lg overflow-hidden">
-                <div className='p-3 border-b border-black flex justify-between'>
+            <div className="flex flex-col w-full h-3/4 max-w-md mx-auto bg-[#dbecf4] shadow-lg rounded-lg overflow-hidden">
+                <div className='p-3 border-b bg-[#00838F] border-black text-[#FFFFFF] flex justify-between'>
                     <div className='flex items-center'>
                         <img
                             src={recipient?.photo}
                             alt="Recipient"
                             className="w-8 h-8 rounded-full"
                         />
-                        <span className="ml-2 font-semibold text-white">{recipient?.name}</span>
+                        <span className="ml-2 font-semibold">{recipient?.name}</span>
+                        {online && <GoDotFill className="text-green-400 text-2xl ml-2" />}
                     </div>
                     <div className='flex items-center gap-1'>
-                        <button onClick={()=>navigate(`/profile/${Id}`)}><IoInformationCircle className="text-white text-2xl" /></button>
-                        <button onClick={()=>navigate(-2)}><RxCross2 className="text-white text-2xl" /></button>
+                        <button onClick={() => navigate(`/profile/${Id}`)}><IoInformationCircle className="text-2xl" /></button>
+                        <button onClick={() => navigate(-2)}><RxCross2 className="text-2xl" /></button>
                     </div>
 
                 </div>
@@ -149,7 +163,7 @@ const ChatInbox = () => {
                             )}
 
                             <div
-                                className={`rounded-lg px-4 py-2 max-w-xs ${msg.sender === 'user' ? 'bg-black text-white' : 'bg-gray-200 text-gray-800'}`}
+                                className={`rounded-lg px-4 py-2 font-medium max-w-xs ${msg.sender === 'user' ? 'bg-gray-700 text-white' : 'bg-white text-black border border-gray-600'}`}
                             >
                                 {msg.text}
                             </div>
@@ -165,7 +179,7 @@ const ChatInbox = () => {
                     ))}
                 </div>
 
-                <div className="p-3  border-black">
+                <div className="p-3 bg-white  border-black">
                     <div className="relative flex">
                         <input
                             type="text"
@@ -173,11 +187,11 @@ const ChatInbox = () => {
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
                             placeholder="Type your message..."
-                            className="w-full pl-4 pr-16 py-2 text-white border-b placeholder-white border-black rounded-lg bg-transparent focus:outline-none"
+                            className="w-full pl-4 pr-16 py-2 text-[#2c3e48] font-semibold border-b placeholder-black border-[#00838F] rounded-lg bg-transparent focus:outline-none"
                         />
                         <button
                             onClick={sendMessage}
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white text-black px-4 py-1 rounded-lg"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-4 py-1 rounded-lg"
                         >
                             <GoPaperAirplane />
                         </button>

@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
+import { FaArrowRight } from "react-icons/fa6";
 
-const Tabs = ({ on, handleSetOn }) => {
+const Tabs = ({ on, input, setInput, handleSetOn, handleSearch }) => {
+
     return (
         <div className="flex justify-between">
-            <div />
+            <div className="hidden md:block lg:w-40" />
             <div className="flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
                 <button onClick={handleSetOn} className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center ${on ? 'text-blue-600  border-blue-500 dark:border-blue-400 dark:text-blue-300' : 'text-gray-700 border-transparent dark:text-white hover:border-gray-400'}  bg-transparent border-b-2 sm:px-4 whitespace-nowrap focus:outline-none `}>
                     <svg
@@ -41,7 +43,24 @@ const Tabs = ({ on, handleSetOn }) => {
                     <span className="mx-1 text-sm sm:text-base">Friends</span>
                 </button>
             </div>
-            <div className="text-white">Search</div>
+            <div className="text-white flex items-center">
+                <form onSubmit={handleSearch} className="flex items-center">
+                    <div className="relative w-auto">
+                        <input
+                            className="bg-transparent w-full border-b border-gray-700 rounded-lg outline-none focus:border-none focus:outline-blue-500 p-2 pr-10"
+                            placeholder="Find here..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                        />
+                        <button
+                            type="submit"
+                            className="absolute top-1/2 right-2 transform -translate-y-1/2 text-blue-400"
+                        >
+                            <FaArrowRight className="text-2xl" />
+                        </button>
+                    </div>
+                </form>
+            </div>
 
         </div>
     );

@@ -13,63 +13,75 @@ import ProfileCard from "../Components/Card/ProfileCard";
 import Messages from "../Pages/Messages";
 import Requests from "../Pages/Requests";
 import Friends from "../Pages/Friends";
-import { Card } from "../Components/ui/HoverEffect";
+import EditBio from "../Pages/EditBio";
+import ManageUsers from "../Pages/ManageUsers";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
     {
-        path:'/',
-        errorElement:<ErrorPage/>,
-        element: <Main/>,
-        children:[
+        path: '/',
+        errorElement: <ErrorPage />,
+        element: <Main />,
+        children: [
             {
-                path:'/',
-                element:<Home/>
+                path: '/',
+                element: <Home />
             },
             {
-                path:'users',
-                element:<Users></Users>
+                path: 'users',
+                element: <Users></Users>
             },
             {
-                path:'user',
-                element:<UserBox></UserBox>
+                path: 'user',
+                element: <UserBox></UserBox>
             },
             {
-                path:'messages',
-                element:<Messages></Messages>
+                path: 'messages',
+                element: <Messages></Messages>,
+                children: [
+                    {
+                        path: '/messages/inbox/:Id',
+                        element: <PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+                    }
+                ]
             },
             {
-                path:'requests',
-                element:<Requests></Requests>
+                path: 'requests',
+                element: <Requests></Requests>
             },
             {
-                path:'friends',
-                element:<Friends></Friends>
+                path: 'friends',
+                element: <Friends></Friends>
             },
-            
+            {
+                path: 'edit/:Id',
+                element: <EditBio></EditBio>
+            }
+
         ]
     },
     {
-        path:'/signup',
-        element:<Signup></Signup>
+        path: '/signup',
+        element: <Signup></Signup>
     },
     {
-        path:'/login',
-        element:<Login/>
+        path: '/login',
+        element: <Login />
     },
     {
-        path:'/inbox/:Id',
-        element:<PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+        path: '/inbox/:Id',
+        element: <PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
     },
     {
-        path:'/profile/:Id',
-        element:<PrivateRoute><Profile/></PrivateRoute>
+        path: '/profile/:Id',
+        element: <PrivateRoute><Profile /></PrivateRoute>
     },
     {
-        path:'/card',
-        element:<ProfileCard></ProfileCard>
+        path: '/card',
+        element: <ProfileCard></ProfileCard>
     },
     {
-        path:'hello',
-        element:<Card></Card>
+        path: '/admin',
+        element: <PrivateRoute><AdminRoute><ManageUsers /></AdminRoute></PrivateRoute>
     }
 ])
