@@ -8,12 +8,14 @@ import { useQuery } from "@tanstack/react-query";
 import { dltRelation, getRelation, setRelation, updateRelation } from "../../Api/route";
 import { FaEdit, FaHome } from "react-icons/fa";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const Profile = () => {
     const { Id } = useParams();
     const [users, isLoading] = useUsers();
     const { user, loading } = useAuth();
-    const  navigate  = useNavigate();
+    const navigate = useNavigate();
+   
 
     const isLoadingAll = isLoading || loading;
 
@@ -36,6 +38,7 @@ const Profile = () => {
             return null;
         },
     });
+
 
     // returns in boolean 
     const meExists = sender?._id === Id;
@@ -87,7 +90,10 @@ const Profile = () => {
         year: "numeric",
     });
 
-    if (isLoadingAll && ldng) return <Skeleton></Skeleton>
+
+    if (isLoadingAll || ldng) {
+        return <Skeleton />;
+    }
     return (
         <div className='dark:bg-gray-900 flex justify-center items-center h-screen'>
             <Helmet>
@@ -167,8 +173,12 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    {meExists && <Link to={`/edit/${sender?._id}`} title="update bio" className="absolute top-16 right-12 md:right-16 text-xl text-blue-400 hover:text-blue-600 "><FaEdit/></Link>}
-                    <button onClick={()=>navigate('/')} className={`absolute top-16 right-4 md:right-8 text-xl text-blue-400 hover:text-blue-600`}><FaHome/></button>
+                    {meExists && <Link to={`/edit/${sender?._id}`}
+                        title="update bio"
+                        className="absolute top-16 right-12 md:right-16 text-xl text-blue-400 hover:text-blue-600 "><FaEdit />
+                    </Link>}
+
+                    <button onClick={() => navigate('/')} className={`absolute top-16 right-4 md:right-8 text-xl text-blue-400 hover:text-blue-600`}><FaHome /></button>
                 </div>
             </div>
         </div>

@@ -91,9 +91,9 @@ export const searchUsers = async (name) => {
     return data;
 }
 
-// update user bio
-export const updateBio = async (id, bio) => {
-    const { data } = await axiosSecure.patch(`/bio/${id}`, { bio });
+// update user bio, name
+export const updateBio = async (id, info) => {
+    const { data } = await axiosSecure.patch(`/bio/${id}`, info );
     return data;
 }
 

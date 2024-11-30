@@ -30,7 +30,6 @@ const Signup = () => {
             // save user
             const getTkn = await getToken(result?.user?.email);
             const dbresponse = await saveUsers(result?.user);
-            console.log(dbresponse)
         } catch (err) {
             console.log(err);
             toast.error(err?.message);

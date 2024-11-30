@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import img from '../../../public/cover p.png'
 
 const Home = () => {
     return (
@@ -32,10 +33,10 @@ const Home = () => {
                             </div>
                         </div>
 
-                        <div className="flex items-center justify-center w-full mt-6 lg:mt-0 lg:w-1/2">
+                        <div className="flex items-center justify-center w-full mt-6 lg:mt-4 lg:w-1/2">
                             <img
                                 className="w-full h-full max-w-md"
-                                src="https://merakiui.com/images/components/Email-campaign-bro.svg"
+                                src={img}
                                 alt="email illustration vector art"
                             />
                         </div>
