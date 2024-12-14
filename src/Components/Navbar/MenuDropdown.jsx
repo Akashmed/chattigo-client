@@ -60,7 +60,7 @@ const MenuDropdown = () => {
                 className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
             >
                 < AiOutlineMenu className='text-gray-900' />
-                <div className="hidden md:block">
+                <div>
                     {/* Avatar */}
                     <img
                         className="rounded-full"

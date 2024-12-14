@@ -61,7 +61,7 @@ const EditBio = () => {
                     <p className="text-gray-400 text-xl font-bold mb-1">Change Picture</p>
                     <label
                         htmlFor="dropzone-file"
-                        className="flex items-center px-3 py-3 mx-auto text-center bg-white border-2 border-dashed rounded-lg cursor-pointer dark:border-gray-300 dark:bg-gray-900">
+                        className="flex items-center px-3 py-3 mx-auto text-center border-2 border-dashed rounded-lg cursor-pointer border-gray-300 bg-gray-900">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-6 h-6 text-gray-300 dark:text-gray-500"

@@ -37,7 +37,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'messages',
-                element: <Messages></Messages>,
+                element: <PrivateRoute><Messages></Messages></PrivateRoute>,
                 children: [
                     {
                         path: '/messages/inbox/:Id',
@@ -47,15 +47,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'requests',
-                element: <Requests></Requests>
+                element: <PrivateRoute><Requests></Requests></PrivateRoute>
             },
             {
-                path: 'friends',
-                element: <Friends></Friends>
+                path: 'friends/:Id',
+                element: <PrivateRoute><Friends></Friends></PrivateRoute>
             },
             {
                 path: 'edit/:Id',
-                element: <EditBio></EditBio>
+                element: <PrivateRoute><EditBio></EditBio></PrivateRoute>
             }
 
         ]
@@ -75,10 +75,6 @@ export const router = createBrowserRouter([
     {
         path: '/profile/:Id',
         element: <PrivateRoute><Profile /></PrivateRoute>
-    },
-    {
-        path: '/card',
-        element: <ProfileCard></ProfileCard>
     },
     {
         path: '/admin',

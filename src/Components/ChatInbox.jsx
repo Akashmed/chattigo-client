@@ -20,7 +20,6 @@ const ChatInbox = () => {
     const [users, isLoading] = useUsers();
     const [online, setOnline] = useState(false);
     const navigate = useNavigate();
-    console.log(online);
 
     // get all users
     // const { data: users = [], isLoading } = useQuery({
@@ -126,7 +125,7 @@ const ChatInbox = () => {
     if (isLoading) return <Skeleton />;
 
     return (
-        <div className='flex items-center h-screen dark:bg-gray-900'>
+        <div className='flex items-center px-4 h-screen bg-gray-900'>
             <Helmet>
                 <title>Inbox | {recipient?.name}</title>
             </Helmet>
@@ -143,7 +142,10 @@ const ChatInbox = () => {
                     </div>
                     <div className='flex items-center gap-1'>
                         <button onClick={() => navigate(`/profile/${Id}`)}><IoInformationCircle className="text-2xl" /></button>
-                        <button onClick={() => navigate(-2)}><RxCross2 className="text-2xl" /></button>
+                        <button onClick={() => {
+                            navigate('/messages');
+                            window.location.reload();
+                        }}><RxCross2 className="text-2xl" /></button>
                     </div>
 
                 </div>

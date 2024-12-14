@@ -3,7 +3,7 @@
 import { IoArrowBackOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const EmptyState = ({ message, }) => {
+const EmptyState = ({ message }) => {
   const navigate = useNavigate();
   return (
     <div className='h-screen gap-5 flex flex-col justify-center items-center pb-16 '>

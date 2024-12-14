@@ -41,7 +41,7 @@ const ManageUsers = () => {
     if(loading && isLoading) return <Skeleton/> ;
     return (
 
-        <div className="flex flex-col items-center space-y-8 dark:bg-gray-900 pt-3 min-h-screen">
+        <div className="flex flex-col items-center space-y-8 bg-gray-900 pt-3 min-h-screen">
             <span className="text-2xl text-white">Manage Users</span>
             <div className="text-white flex items-center">
                 <form onSubmit={handleSearch} className="flex items-center">
@@ -63,7 +63,7 @@ const ManageUsers = () => {
             </div>
             <div className="grid md:grid-cols-3 w-2/3 gap-4">
                 {(search ? search: remaining ).map((user) => (
-                    <div key={user._id} className="bg-white w-auto flex items-center hover:dark:bg-gray-700 justify-between dark:bg-gray-800 rounded-lg shadow-lg p-4">
+                    <div key={user._id} className="w-auto flex items-center hover:bg-gray-700 justify-between bg-gray-800 rounded-lg shadow-lg p-4">
                         <div className="flex items-center gap-2">
                             <img
                                 src={user.photo}

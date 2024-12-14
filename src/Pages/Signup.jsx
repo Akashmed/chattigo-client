@@ -6,9 +6,11 @@ import { imageUpload } from '../Api/utensils';
 import toast from 'react-hot-toast';
 import { getToken, saveUsers } from '../Api/route';
 import { Helmet } from 'react-helmet-async';
+import Skeleton from '../Components/Loader/Skeleton';
 const Signup = () => {
     const { createUser, googleSignIn, updateUserProfile } = useAuth();
     const [image, setImage] = useState('');
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleSignUp = async e => {
@@ -20,35 +22,44 @@ const Signup = () => {
         const password = form.password.value;
 
         try {
+            setLoading(true);
             // upload image
             const imageData = await imageUpload(img);
             // create user
             const result = await createUser(email, password);
             await updateUserProfile(name, imageData?.data?.display_url);
-            toast.success('Sign up successful');
-            navigate('/');
             // save user
             const getTkn = await getToken(result?.user?.email);
+            navigate('/');
+            toast.success('Sign up successful');
             const dbresponse = await saveUsers(result?.user);
         } catch (err) {
             console.log(err);
             toast.error(err?.message);
+        }finally
+        {
+            setLoading(false);
         }
     }
 
     const handleSocialSignup = async () => {
         try {
+            setLoading(true);
             const result = await googleSignIn();
-            toast.success('Sign in successful');
-            navigate('/');
             const getTkn = await getToken(result?.user?.email);
+            navigate('/');
+            toast.success('Sign in successful');
             const dbresponse = await saveUsers(result?.user);
-            console.log(dbresponse);
+            // console.log(dbresponse);
         } catch (err) {
             console.log(err);
             toast.error(err?.message);
+        }finally
+        {
+            setLoading(false);
         }
     }
+    if(loading) return <Skeleton></Skeleton>
     return (
         <section className="bg-white dark:bg-gray-900">
             <Helmet>
