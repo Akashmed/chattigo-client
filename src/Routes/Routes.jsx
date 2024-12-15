@@ -9,13 +9,13 @@ import ChatInbox from "../Components/chatInbox";
 import PrivateRoute from "./PrivateRoute";
 import UserBox from "../Pages/UserBox";
 import Profile from "../Pages/Home/Profile";
-import ProfileCard from "../Components/Card/ProfileCard";
 import Messages from "../Pages/Messages";
 import Requests from "../Pages/Requests";
 import Friends from "../Pages/Friends";
 import EditBio from "../Pages/EditBio";
 import ManageUsers from "../Pages/ManageUsers";
 import AdminRoute from "./AdminRoute";
+import FriendRoute from "./FriendRoute";
 
 export const router = createBrowserRouter([
     {
@@ -41,7 +41,7 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         path: '/messages/inbox/:Id',
-                        element: <PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+                        element: <PrivateRoute><FriendRoute><ChatInbox></ChatInbox></FriendRoute></PrivateRoute>,
                     }
                 ]
             },
@@ -70,7 +70,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/inbox/:Id',
-        element: <PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+        element: <PrivateRoute><FriendRoute><ChatInbox></ChatInbox></FriendRoute></PrivateRoute>,
     },
     {
         path: '/profile/:Id',

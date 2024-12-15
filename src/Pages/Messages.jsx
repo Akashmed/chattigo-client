@@ -38,7 +38,7 @@ const Messages = () => {
             </Helmet>
             <div className="flex justify-center">
                 {/* Friends List (Left Side) */}
-                <div className={`flex flex-col items-center pt-8 md:pt-0 space-y-3 w-full md:w-1/3 ${selectedFriend && 'hidden md:block'}`}>
+                <div className={`flex flex-col items-center pt-8 md:pt-0 space-y-3 md:space-y-1 w-full md:w-1/3 ${selectedFriend && 'hidden md:block'}`}>
                     {mergedFriends.length > 0 ? (
                         mergedFriends.map(friend => (
                             <div

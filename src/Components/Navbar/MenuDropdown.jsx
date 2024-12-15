@@ -63,12 +63,11 @@ const MenuDropdown = () => {
                 <div>
                     {/* Avatar */}
                     <img
-                        className="rounded-full"
+                        className="rounded-full h-[30px] w-[30px] object-cover"
                         referrerPolicy="no-referrer"
                         src={user ? user.photoURL : avatarImg}
                         alt="profile"
-                        height="30"
-                        width="30"
+                        
                     />
                 </div>
             </div>
