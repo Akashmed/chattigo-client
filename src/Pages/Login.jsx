@@ -4,10 +4,13 @@ import useAuth from "../Hooks/useAuth";
 import toast from "react-hot-toast";
 import { getToken, saveUsers } from "../Api/route";
 import { Helmet } from "react-helmet-async";
+import Skeleton from "../Components/Loader/Skeleton";
+import { useState } from "react";
 
 const Login = () => {
     const {googleSignIn,signIn} = useAuth();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const from = location?.state?.from?.pathname || ('/');
 
     const handleLogin = async e =>{
@@ -16,6 +19,7 @@ const Login = () => {
         const email = form.email.value;
         const password = form.password.value;
         try{
+            setLoading(true);
             const result = await signIn(email,password);
             const getTkn = await getToken(result?.user?.email);
             navigate(from, {replace:true});
@@ -23,21 +27,30 @@ const Login = () => {
         }catch(err){
             console.log(err);
             toast.error(err?.message);
+        }finally
+        {
+            setLoading(false);
         }
     }
 
     const handleGglSignIn = async () => {
         try {
+            setLoading(true);
             const result = await googleSignIn();
             const getTkn = await getToken(result?.user?.email);
-            toast.success('Sign in successful');
             navigate(from, {replace:true});
+            toast.success('Sign in successful');
             const dbresponse = await saveUsers(result?.user);
         } catch (err) {
             console.log(err);
             toast.error(err?.message);
+        }finally
+        {
+            setLoading(false);
         }
     }
+
+    if(loading) return <Skeleton></Skeleton>
 
     return (
         <section className="bg-white dark:bg-gray-900">

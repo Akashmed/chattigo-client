@@ -9,13 +9,13 @@ import ChatInbox from "../Components/chatInbox";
 import PrivateRoute from "./PrivateRoute";
 import UserBox from "../Pages/UserBox";
 import Profile from "../Pages/Home/Profile";
-import ProfileCard from "../Components/Card/ProfileCard";
 import Messages from "../Pages/Messages";
 import Requests from "../Pages/Requests";
 import Friends from "../Pages/Friends";
 import EditBio from "../Pages/EditBio";
 import ManageUsers from "../Pages/ManageUsers";
 import AdminRoute from "./AdminRoute";
+import FriendRoute from "./FriendRoute";
 
 export const router = createBrowserRouter([
     {
@@ -37,25 +37,25 @@ export const router = createBrowserRouter([
             },
             {
                 path: 'messages',
-                element: <Messages></Messages>,
+                element: <PrivateRoute><Messages></Messages></PrivateRoute>,
                 children: [
                     {
                         path: '/messages/inbox/:Id',
-                        element: <PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+                        element: <PrivateRoute><FriendRoute><ChatInbox></ChatInbox></FriendRoute></PrivateRoute>,
                     }
                 ]
             },
             {
                 path: 'requests',
-                element: <Requests></Requests>
+                element: <PrivateRoute><Requests></Requests></PrivateRoute>
             },
             {
-                path: 'friends',
-                element: <Friends></Friends>
+                path: 'friends/:Id',
+                element: <PrivateRoute><Friends></Friends></PrivateRoute>
             },
             {
                 path: 'edit/:Id',
-                element: <EditBio></EditBio>
+                element: <PrivateRoute><EditBio></EditBio></PrivateRoute>
             }
 
         ]
@@ -70,15 +70,11 @@ export const router = createBrowserRouter([
     },
     {
         path: '/inbox/:Id',
-        element: <PrivateRoute><ChatInbox></ChatInbox></PrivateRoute>,
+        element: <PrivateRoute><FriendRoute><ChatInbox></ChatInbox></FriendRoute></PrivateRoute>,
     },
     {
         path: '/profile/:Id',
         element: <PrivateRoute><Profile /></PrivateRoute>
-    },
-    {
-        path: '/card',
-        element: <ProfileCard></ProfileCard>
     },
     {
         path: '/admin',

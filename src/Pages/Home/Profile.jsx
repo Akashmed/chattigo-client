@@ -5,17 +5,18 @@ import useAuth from "../../Hooks/useAuth";
 import Skeleton from "../../Components/Loader/Skeleton";
 import pCover from "../../../public/CHAT by.png";
 import { useQuery } from "@tanstack/react-query";
+import { FaUserMinus } from "react-icons/fa";
 import { dltRelation, getRelation, setRelation, updateRelation } from "../../Api/route";
 import { FaEdit, FaHome } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 const Profile = () => {
     const { Id } = useParams();
     const [users, isLoading] = useUsers();
     const { user, loading } = useAuth();
     const navigate = useNavigate();
-   
+
 
     const isLoadingAll = isLoading || loading;
 
@@ -73,9 +74,25 @@ const Profile = () => {
 
     const deleteRelation = async () => {
         try {
-            const result = await dltRelation(sender?._id, recipient?._id)
-            toast.success('Disconnection successful');
-            refetch();
+            Swal.fire({
+                title: "Are you sure?",
+                background: "#1a202c",
+                color: "#f9fafb",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes !",
+                cancelButtonText: "No",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    const result = await dltRelation(sender?._id, recipient?._id)
+                    toast.success('Disconnection successful');
+                    refetch();
+                }
+            });
+
         } catch (err) {
             console.log(err);
             toast.error("An error occured");
@@ -95,11 +112,11 @@ const Profile = () => {
         return <Skeleton />;
     }
     return (
-        <div className='dark:bg-gray-900 flex justify-center items-center h-screen'>
+        <div className='bg-gray-900 flex justify-center items-center h-screen'>
             <Helmet>
                 <title>Profile</title>
             </Helmet>
-            <div className='dark:bg-gray-800 shadow-lg border-t-2 border-gray-800 rounded-2xl w-3/6'>
+            <div className='bg-gray-800 shadow-lg border-t-2 border-gray-800 rounded-2xl w-3/4 md:w-3/6'>
                 <img
                     alt='profile'
                     src={pCover}
@@ -121,17 +138,19 @@ const Profile = () => {
                         {meExists ? sender?.bio : recipient?.bio}
                     </p>
                     <div className='w-full p-2 mt-4 rounded-lg'>
-                        <div className='flex flex-wrap space-y-1 items-center justify-between text-sm text-gray-300 '>
-                            <p className='flex flex-col'>
-                                Since
-                                <span className='font-bold text-gray-300 '>
-                                    {formattedDate}
-                                </span>
-                            </p>
-                            <p className='flex flex-col'>
-                                Email
-                                <span className='font-bold text-gray-300'>{recipient?.email}</span>
-                            </p>
+                        <div className='flex flex-wrap space-y-4 items-center justify-between text-sm text-gray-300 '>
+                            <div className="md:flex justify-between w-full space-y-2 md:w-2/3">
+                                <p className='flex flex-col'>
+                                    Since
+                                    <span className='font-bold text-gray-300 '>
+                                        {formattedDate}
+                                    </span>
+                                </p>
+                                <p className='flex flex-col'>
+                                    Email
+                                    <span className='font-bold text-gray-300'>{recipient?.email}</span>
+                                </p>
+                            </div>
 
                             <div>
                                 {relation ?
@@ -141,10 +160,10 @@ const Profile = () => {
                                                 Cancel Req
                                             </button>
                                         </> : <>
-                                            <button onClick={acceptReq} className='bg-blue-500 font-semibold px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-blue-600 block mb-1'>
+                                            <button onClick={acceptReq} className='bg-blue-500 font-semibold px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-blue-600 block mb-2'>
                                                 Accept
                                             </button>
-                                            <button onClick={deleteRelation} className='bg-red-600 font-semibold px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-red-700 block mb-1'>
+                                            <button onClick={deleteRelation} className='bg-red-600 font-semibold px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-red-700 block'>
                                                 Delete
                                             </button>
                                         </>
@@ -152,7 +171,7 @@ const Profile = () => {
                                                 <Link to={`/inbox/${Id}`} className='bg-blue-500 text-center px-10 py-1 rounded-lg text-white font-semibold cursor-pointer  hover:bg-blue-600 block mb-1'>
                                                     Message
                                                 </Link>
-                                                <button onClick={deleteRelation} className='bg-red-600 px-10 py-1 rounded-lg text-white font-semibold cursor-pointer  hover:bg-red-700 block mb-1'>
+                                                <button onClick={deleteRelation} className='bg-red-600 px-10 py-1 rounded-lg text-white font-semibold cursor-pointer  hover:bg-red-700 block mt-2'>
                                                     Disconnect
                                                 </button>
 
@@ -160,7 +179,7 @@ const Profile = () => {
 
                                     ) : (
                                         meExists ?
-                                            <Link to='/friends' className='bg-blue-500 font-semibold px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-blue-600 block mb-1'>
+                                            <Link to={`/friends/${Id}`} className='bg-blue-500 font-semibold px-10 py-1 rounded-lg text-white cursor-pointer  hover:bg-blue-600 block mb-1'>
                                                 Friends
                                             </Link> : <button
                                                 onClick={handleConnect}

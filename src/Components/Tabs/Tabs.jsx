@@ -4,10 +4,10 @@ import { FaArrowRight } from "react-icons/fa6";
 const Tabs = ({ on, input, setInput, handleSetOn, handleSearch }) => {
 
     return (
-        <div className="flex justify-between">
+        <div className="flex gap-2 mt-3  md:gap-0 justify-between">
             <div className="hidden md:block lg:w-40" />
-            <div className="flex overflow-x-auto overflow-y-hidden border-b border-gray-200 whitespace-nowrap dark:border-gray-700">
-                <button onClick={handleSetOn} className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center ${on ? 'text-blue-600  border-blue-500 dark:border-blue-400 dark:text-blue-300' : 'text-gray-700 border-transparent dark:text-white hover:border-gray-400'}  bg-transparent border-b-2 sm:px-4 whitespace-nowrap focus:outline-none `}>
+            <div className="flex overflow-x-auto overflow-y-hidden border-b whitespace-nowrap border-gray-700">
+                <button onClick={handleSetOn} className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center ${on ? 'border-blue-400 text-blue-300' : ' border-transparent text-white hover:border-gray-400'}  bg-transparent border-b-2 sm:px-4 whitespace-nowrap focus:outline-none `}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-4 h-4 mx-1 sm:w-6 sm:h-6"
@@ -25,7 +25,7 @@ const Tabs = ({ on, input, setInput, handleSetOn, handleSearch }) => {
                     <span className="mx-1 text-sm sm:text-base">Users</span>
                 </button>
 
-                <button onClick={handleSetOn} className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center ${on ? 'text-gray-700 border-transparent dark:text-white hover:border-gray-400 ' : 'text-blue-600  border-blue-500 dark:border-blue-400 dark:text-blue-300'}  bg-transparent border-b-2 sm:px-4 whitespace-nowrap focus:outline-none `}>
+                <button onClick={handleSetOn} className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center ${on ? 'border-transparent text-white hover:border-gray-400 ' : ' border-blue-400 text-blue-300'} bg-transparent border-b-2 sm:px-4 whitespace-nowrap focus:outline-none `}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="w-4 h-4 mx-1 sm:w-6 sm:h-6"
@@ -43,9 +43,9 @@ const Tabs = ({ on, input, setInput, handleSetOn, handleSearch }) => {
                     <span className="mx-1 text-sm sm:text-base">Friends</span>
                 </button>
             </div>
-            <div className="text-white flex items-center">
+            <div className="text-white md:w-auto w-1/2 flex items-center">
                 <form onSubmit={handleSearch} className="flex items-center">
-                    <div className="relative w-auto">
+                    <div className="relative md:w-auto ml-auto">
                         <input
                             className="bg-transparent w-full border-b border-gray-700 rounded-lg outline-none focus:border-none focus:outline-blue-500 p-2 pr-10"
                             placeholder="Find here..."
@@ -54,7 +54,7 @@ const Tabs = ({ on, input, setInput, handleSetOn, handleSearch }) => {
                         />
                         <button
                             type="submit"
-                            className="absolute top-1/2 right-2 transform -translate-y-1/2 text-blue-400"
+                            className="absolute bg-transparent top-1/2 right-2 transform -translate-y-1/2 text-blue-400"
                         >
                             <FaArrowRight className="text-2xl" />
                         </button>

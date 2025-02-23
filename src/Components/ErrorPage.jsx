@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 const ErrorPage = () => {
     const navigate = useNavigate();
     return (
-        <section className="bg-white dark:bg-gray-900">
+        <section className="bg-gray-900">
             <div className="container flex items-center min-h-screen px-6 py-12 mx-auto">
                 <div className="flex flex-col items-center max-w-sm mx-auto text-center">
                     <p className="p-3 text-sm font-medium text-blue-500 rounded-full bg-blue-50 dark:bg-gray-800">

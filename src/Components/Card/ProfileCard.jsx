@@ -2,7 +2,7 @@
 
 const ProfileCard = ({ photo, name, count }) => {
   return (
-    <div className="mx-auto hover:dark:bg-gray-700 border-white p-4 dark:bg-gray-800 rounded-lg w-auto shadow-lg">
+    <div className="mx-auto hover:bg-gray-700 border-white p-4 bg-gray-800 rounded-lg w-auto shadow-lg">
       <div className="flex items-center justify-between">
         <div className="flex justify-center items-center">
           <div className="w-16 h-16">

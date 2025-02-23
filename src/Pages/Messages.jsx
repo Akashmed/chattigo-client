@@ -6,8 +6,9 @@ import { Helmet } from "react-helmet-async";
 import useFriends from "../Hooks/useFriends";
 import { useState } from "react";
 import Skeleton from "../Components/Loader/Skeleton";
+import EmptyState from "../Components/Empty state/EmptyState";
 const Messages = () => {
-    const [data,,refetch] = useMessages();
+    const [data] = useMessages();
     const [friends, ldng] = useFriends();
     const [selectedFriend, setSelectedFriend] = useState(null);
     const navigate = useNavigate();
@@ -23,7 +24,6 @@ const Messages = () => {
     // Handle profile card click
     const handleProfileClick = (friend) => {
         setSelectedFriend(null);
-        refetch();
         setTimeout(() => {
             setSelectedFriend(friend);
             navigate(`/messages/inbox/${friend._id}`);
@@ -36,28 +36,30 @@ const Messages = () => {
             <Helmet>
                 <title>Messages</title>
             </Helmet>
-            <div className="flex justify-center h-screen">
+            <div className="flex justify-center">
                 {/* Friends List (Left Side) */}
-                <div className={`flex flex-col items-center pt-4 md:pt-0 space-y-3 w-1/2 md:w-1/3 ${selectedFriend && 'hidden md:block'}`}>
-                    {mergedFriends.map(friend => (
-                        <div
-                            key={friend._id}
-                            onClick={() => handleProfileClick(friend)}
-                            className={`block w-full md:p-2 rounded-md  cursor-pointer ${selectedFriend && selectedFriend._id === friend._id ? 'bg-gray-600' : ''}`}
-                        >
-                            <ProfileCard
-                                name={friend.name}
-                                photo={friend.photo}
-                                count={friend.messageCount}
-                            />
-                        </div>
-                    ))}
+                <div className={`flex flex-col items-center pt-8 md:pt-0 space-y-3 md:space-y-1 w-full md:w-1/3 ${selectedFriend && 'hidden md:block'}`}>
+                    {mergedFriends.length > 0 ? (
+                        mergedFriends.map(friend => (
+                            <div
+                                key={friend._id}
+                                onClick={() => handleProfileClick(friend)}
+                                className={`block w-full md:p-2 rounded-md  cursor-pointer ${selectedFriend && selectedFriend._id === friend._id ? 'bg-gray-600' : ''}`}
+                            >
+                                <ProfileCard
+                                    name={friend.name}
+                                    photo={friend.photo}
+                                    count={friend.messageCount}
+                                />
+                            </div>
+                        ))
+                    ) : <EmptyState message={'No messages yet'} />}
                 </div>
 
                 {/* Chat Inbox (Right Side) */}
-                <div className={`flex-1 -mt-8 md:-mt-16 relative ${selectedFriend ? 'block' : 'hidden'}`}>
+                <div className={`flex-1 flex justify-center -mt-8 md:-mt-16 relative ${selectedFriend ? 'block' : 'hidden'}`}>
                     {selectedFriend && (
-                        <div className="absolute top-0 left-0 w-full -translate-y-4">
+                        <div className="fixed w-full z-10 md:w-2/4">
 
                             <Outlet />
                         </div>

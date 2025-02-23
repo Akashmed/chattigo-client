@@ -4,7 +4,7 @@
 const UserBox = ({ name, photo,}) => {
 
     return (
-        <div className="w-full max-w-xs h-[350px] overflow-hidden bg-white rounded-lg shadow-lg dark:bg-gray-800">
+        <div className="w-full max-w-xs h-[350px] overflow-hidden rounded-lg shadow-lg bg-gray-800">
             <img
                 className="object-cover w-full h-56"
                 src={photo}
