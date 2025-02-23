@@ -9,6 +9,7 @@ import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "../Components/Loader/Skeleton";
 import Empty from "../Components/Shared/Empty";
+import Swal from "sweetalert2";
 
 const ManageUsers = () => {
     const [users, isLoading, refetch] = useUsers();
@@ -17,10 +18,10 @@ const ManageUsers = () => {
     const navigate = useNavigate();
 
     const remaining = useMemo(() => {
-        return users.filter(usr => usr.name !== user?.displayName);
-    }, [users, user?.displayName]);
+        return users.filter(usr => usr.role !== 'Admin');
+    }, [users]);
 
-    const handleSearch = async(e) => {
+    const handleSearch = async (e) => {
         e.preventDefault();
         const search = e.target.search.value;
         const searchResults = await searchUsers(search);
@@ -30,15 +31,31 @@ const ManageUsers = () => {
 
     const handleDelete = async (id) => {
         try {
-            await deleteUser(id);
-            toast.success('User deleted successfully');
-            refetch();
+            Swal.fire({
+                title: "Are you sure?",
+                background: "#1a202c",
+                color: "#f9fafb",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes !",
+                cancelButtonText: "No",
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await deleteUser(id);
+                    toast.success('User deleted successfully');
+                    refetch();
+                }
+            });
+            // ----
         } catch (err) {
             console.log(err);
             toast.error(err?.message);
         }
     }
-    if(loading && isLoading) return <Skeleton/> ;
+    if (loading && isLoading) return <Skeleton />;
     return (
 
         <div className="flex flex-col items-center space-y-8 bg-gray-900 pt-3 min-h-screen">
@@ -59,10 +76,10 @@ const ManageUsers = () => {
                         </button>
                     </div>
                 </form>
-                <button onClick={()=>navigate('/')} className="text-2xl text-blue-400 ml-5"><FaHome/></button>
+                <button onClick={() => navigate('/')} className="text-2xl text-blue-400 ml-5"><FaHome /></button>
             </div>
             <div className="grid md:grid-cols-3 w-2/3 gap-4">
-                {(search ? search: remaining ).map((user) => (
+                {(search ? search : remaining).map((user) => (
                     <div key={user._id} className="w-auto flex items-center hover:bg-gray-700 justify-between bg-gray-800 rounded-lg shadow-lg p-4">
                         <div className="flex items-center gap-2">
                             <img
@@ -78,7 +95,7 @@ const ManageUsers = () => {
                     </div>
                 ))}
             </div>
-                {search && search.length === 0 && <Empty/>}
+            {search && search.length === 0 && <Empty />}
         </div>
 
     );

@@ -12,6 +12,10 @@ import { GoPaperAirplane } from "react-icons/go";
 import { Helmet } from 'react-helmet-async';
 import socket from './socket';
 
+// const isMobileDevice = () => {
+//     return /Mobi|Android/i.test(navigator.userAgent);
+// };
+
 const ChatInbox = () => {
     const { Id } = useParams();
     const { user } = useAuth();
@@ -91,6 +95,9 @@ const ChatInbox = () => {
         };
     }, [sender?._id, recipient?._id]);
 
+    useEffect(() => {
+
+    }, [])
 
     const sendMessage = () => {
         if (input.trim() && sender?._id && recipient?._id) {
@@ -121,6 +128,23 @@ const ChatInbox = () => {
             console.log("Sender or recipient ID is missing.");
         }
     };
+
+    const Message = ({ text }) => {
+        const linkify = (text) => {
+            return text.split(/(\s+)/).map((part, index) =>
+                part.match(/(https?:\/\/[^\s]+)/g) ? (
+                    <a key={index} href={part} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline">
+                        {part}
+                    </a>
+                ) : (
+                    part
+                )
+            );
+        };
+
+        return <p>{linkify(text)}</p>;
+    };
+
 
     if (isLoading) return <Skeleton />;
 
@@ -165,9 +189,9 @@ const ChatInbox = () => {
                             )}
 
                             <div
-                                className={`rounded-lg px-4 py-2 font-medium max-w-xs ${msg.sender === 'user' ? 'bg-gray-700 text-white' : 'bg-white text-black border border-gray-600'}`}
+                                className={`rounded-lg px-4 py-2 font-medium max-w-xs break-words overflow-hidden ${msg.sender === 'user' ? 'bg-gray-700 text-white' : 'bg-white text-black border border-gray-600'}`}
                             >
-                                {msg.text}
+                                <Message text={msg.text} />
                             </div>
 
                             {msg.sender === 'user' && (
@@ -193,7 +217,7 @@ const ChatInbox = () => {
                         />
                         <button
                             onClick={sendMessage}
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-4 py-1 rounded-lg"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white px-4 py-1 rounded-md"
                         >
                             <GoPaperAirplane />
                         </button>
