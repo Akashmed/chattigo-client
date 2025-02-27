@@ -1,3 +1,1 @@
-# chattigo-server
-
-[https://github.com/Akashmed/chattigo-server](https://github.com/Akashmed/chattigo-server)
+# [chattigo-server](https://github.com/Akashmed/chattigo-server)
