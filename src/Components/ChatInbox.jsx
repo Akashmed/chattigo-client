@@ -149,7 +149,7 @@ const ChatInbox = () => {
     if (isLoading) return <Skeleton />;
 
     return (
-        <div className='flex items-center px-4 h-screen bg-gray-900'>
+        <div className='flex flex-col justify-center items-center px-4 h-screen bg-gray-900'>
             <Helmet>
                 <title>Inbox | {recipient?.name}</title>
             </Helmet>
@@ -224,6 +224,7 @@ const ChatInbox = () => {
                     </div>
                 </div>
             </div>
+                <p className='text-center text-sm text-gray-400 mt-1'>Secure Messaging</p>
         </div>
     );
 };

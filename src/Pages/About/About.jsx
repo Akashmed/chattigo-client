@@ -27,7 +27,7 @@ Features of Chattigo:
 - Notifications are also sent for incoming connection requests.
 - In the user profile, individuals can modify their name, biography, and profile picture.
 
-Chattigo places a high priority on the security of each conversation. It can identify if a user is online. Messages are not stored in the database while both users are active; they are only saved (after encryption) when a user is offline. When the user comes back online, the messages are delivered (after decryption) and then deleted from the database.
+Chattigo places a high priority on the security of each conversation. It can identify if a user is online. Messages are not stored in the database while both users are active; they are only saved (after encryption) when a user is offline. When the user comes back online, the messages are delivered (after decryption) and then deleted from the database. "Secure Messaging"
 
 Chattigo was established by Akash Ahmed. All rights are reserved by the founder.
 
